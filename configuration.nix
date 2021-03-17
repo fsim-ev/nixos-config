@@ -44,6 +44,11 @@
 				shell = pkgs.fish;
 				openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILdsma74LYn5VdICUm1KgPte4rO563sWXJQfoVGGdfe6"];
 			};
+			fla34149 = {
+				isNormalUser = true;
+				extraGroups = [ "wheel" ];
+				openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDPyzjmyJS5JCKD2Y9Rxl/gD4UfPRxrAl1gfVQ1+iVUbKLp3BARRAbUgVSGv2WY/Vguv6hqt3+SgGSN1iXyKTTO78NanhIDTVTgyWBIj2uJsFzj9NF5r3Q5V6YknqjOUFYpi/mlOmroQ3G4gsol2CON/lLbFiEX+hrJycc4srt4ruKOrSV9Kgh8pWtsdYw+vIqM8bblhuu5JRezNd08cuQu5hV59zJaIJRWNWmJ1dmD3Ci6ODfz7jZU1nI0lPkR88b1f1SAmMgTj91aIw4MrwkUL9sp/MGtrGgBTXJ87ba18Xd2pp4yPeJ5E0qaHQWNicYtEGV3or+sRr6PmLR+DLw4/BlO06CMulgIGDfOz5/4kAMEHYXf1BMDisJlAFlAaynkcI3a80HdEsJcu471ZRTzdJFRCRPf2IAAAZq1qAVySajWOc8VG6cmO8wFwI9WFLMdw8QYU5TK/8nNwqgip53nEJJhq76WoXWMNjPeiCiXQrpoEj16m7GX/m90Ll8x8JFUxZuzONg/n+Qj8PnNbFqPKU+Tc691kwgOzBkCwrCgMaQ+ihiNYzEaYg/h0e2n/SEb1/R2l9iw8K3ApnU9Hl4Hg01RjPfOrKimysnuMT2Ej9DsQcEukK42c9BD88MTPAD/YOKunnYisfnymdMze0cq2vq0Y60oqCiPtqGuvF5yBQ=="];
+			};
 		};
 	};
 

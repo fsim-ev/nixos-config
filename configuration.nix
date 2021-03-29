@@ -14,6 +14,7 @@
 		htop
 		nano vim
 		curl wget
+		git
 	];
 
 	programs = {

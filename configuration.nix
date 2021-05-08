@@ -8,6 +8,11 @@
 	imports = [
 		# Include the results of the hardware scan.
 		./hardware-configuration.nix
+		# Define a user account. Don't forget to set a password with ‘passwd’.
+		./users/bib48218.nix
+		./users/fla34149.nix
+		./users/fsim.nix
+		./users/uta36888.nix
 	];
 
 	environment.systemPackages = with pkgs; [
@@ -25,14 +30,6 @@
 
 	###########################################################################
 	# DANGER ZONE
-
-	# Define a user account. Don't forget to set a password with ‘passwd’.
-	imports = [
-		./users/bib48218.nix
-		./users/fla34149.nix
-		./users/fsim.nix
-		./users/uta36888.nix
-	];
 
 	security.sudo.enable = true;
 	services.openssh = {

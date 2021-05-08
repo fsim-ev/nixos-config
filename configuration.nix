@@ -28,6 +28,8 @@
 		tmux.enable = true;
 	};
 
+	virtualisation.docker.enable = true;
+
 	###########################################################################
 	# DANGER ZONE
 

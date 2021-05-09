@@ -12,6 +12,7 @@
 		./users/bib48218.nix
 		./users/fla34149.nix
 		./users/fsim.nix
+		./users/kum31796.nix
 		./users/uta36888.nix
 	];
 

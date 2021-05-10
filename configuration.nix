@@ -29,6 +29,14 @@
 		tmux.enable = true;
 	};
 
+	services = {
+		# Database
+		postgresql = {
+			enable = true;
+			package = pkgs.postgresql_12;
+		};
+	};
+
 	virtualisation.docker.enable = true;
 
 	###########################################################################
@@ -85,6 +93,4 @@
 	# Before changing this value read the documentation for this option
 	# (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
 	system.stateVersion = "20.09"; # Did you read the comment?
-
 }
-

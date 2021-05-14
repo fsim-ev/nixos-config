@@ -30,11 +30,35 @@
 	};
 
 	services = {
+		# Web server
+		nginx = {
+			enable = true;
+
+			recommendedGzipSettings = true;
+			recommendedOptimisation = true;
+			recommendedProxySettings = true;
+			recommendedTlsSettings = true;
+			clientMaxBodySize = "256m";
+
+			virtualHosts = {
+				"fsim.oth-regensburg.de" = {
+					default = true;
+					forceSSL = true;
+					enableACME = true;
+				};
+			};
+		};
 		# Database
 		postgresql = {
 			enable = true;
 			package = pkgs.postgresql_12;
 		};
+	};
+
+	security.acme = {
+		# Let's Encrypt Certificate Management
+		email = "fachschaft_im@oth-regensburg.de";
+		acceptTerms = true;
 	};
 
 	virtualisation.docker.enable = true;

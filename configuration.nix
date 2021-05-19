@@ -29,11 +29,24 @@
 		tmux.enable = true;
 	};
 
-	services = {
+	services = rec {
+
+		# Nextcloud
+		nextcloud = {
+			enable = true;
+			package = pkgs.nextcloud21;
+			hostName = "cloud.fsim-ev.de";
+			config = {
+				dbtype = "pgsql";
+				dbhost = "/run/postgresql"; # nextcloud will add /.s.PGSQL.5432 by itself
+				adminuser = "nixi";
+				adminpassFile = toString ./secrets/nextcloud-admin-pass;
+			};
+		};
+
 		# Web server
 		nginx = {
 			enable = true;
-
 			recommendedGzipSettings = true;
 			recommendedOptimisation = true;
 			recommendedProxySettings = true;
@@ -46,13 +59,33 @@
 					forceSSL = true;
 					enableACME = true;
 				};
+
+				# Nextcloud
+				"${config.services.nextcloud.hostName}" = {
+					forceSSL = true;
+					enableACME = true;
+				};
 			};
 		};
+
 		# Database
 		postgresql = {
 			enable = true;
 			package = pkgs.postgresql_12;
+			ensureDatabases = [ config.services.nextcloud.config.dbname ];
+			ensureUsers = [
+				{
+					name = config.services.nextcloud.config.dbuser;
+					ensurePermissions."DATABASE ${config.services.nextcloud.config.dbname}" = "ALL PRIVILEGES";
+				}
+			];
 		};
+	};
+
+	# NextCloud: ensure that postgres is running *before* running the setup
+	systemd.services."nextcloud-setup" = {
+		requires = ["postgresql.service"];
+		after = ["postgresql.service"];
 	};
 
 	security.acme = {

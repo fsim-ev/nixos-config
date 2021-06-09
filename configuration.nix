@@ -40,6 +40,7 @@
 				dbhost = "/run/postgresql"; # nextcloud will add /.s.PGSQL.5432 by itself
 				adminuser = "nixi";
 				adminpassFile = toString ./secrets/nextcloud-admin-pass;
+				overwriteProtocol = "https";
 			};
 		};
 

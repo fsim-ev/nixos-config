@@ -36,7 +36,7 @@ ZULIP_ADMINISTRATOR = "fachschaft_im@othr.de"
 ##
 ## If you need to access the server on a specific port, you should set
 ## EXTERNAL_HOST to e.g. zulip.example.com:1234 here.
-EXTERNAL_HOST = "fsim.othr.de"
+EXTERNAL_HOST = "chat.fsim-ev.de"
 
 ## Alternative hostnames.  A comma-separated list of strings
 ## representing the host/domain names that your users can enter in
@@ -138,7 +138,7 @@ EMAIL_GATEWAY_IMAP_FOLDER = "INBOX"
 ## enabled.  If you want to disable it, do so after creating the
 ## initial realm and user.
 AUTHENTICATION_BACKENDS: Tuple[str, ...] = (
-    "zproject.backends.EmailAuthBackend",  # Email and password; just requires SMTP setup
+    'zproject.backends.EmailAuthBackend',  # Email and password; just requires SMTP setup
     # 'zproject.backends.GoogleAuthBackend',  # Google auth, setup below
     # 'zproject.backends.GitHubAuthBackend',  # GitHub auth, setup below
     # 'zproject.backends.GitLabAuthBackend',  # GitLab auth, setup below
@@ -612,7 +612,7 @@ REDIS_PORT = 6379
 # SUBMIT_USAGE_STATISTICS = True
 
 ## Whether to lightly advertise sponsoring Zulip in the gear menu.
-# PROMOTE_SPONSORING_ZULIP = True
+PROMOTE_SPONSORING_ZULIP = False
 
 ## Controls whether session cookies expire when the browser closes
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
@@ -626,7 +626,7 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 7 * 2  # 2 weeks
 # PASSWORD_MIN_GUESSES = 10000
 
 ## Controls whether Zulip sends "new login" email notifications.
-# SEND_LOGIN_EMAILS = True
+SEND_LOGIN_EMAILS = False
 
 ## Controls whether or not Zulip will parse links starting with
 ## "file:///" as a hyperlink (useful if you have e.g. an NFS share).
@@ -678,13 +678,14 @@ ENABLE_GRAVATAR = True
 ## The default CAMO_URI of '/external_content/' is served by the camo
 ## setup in the default Zulip nginx configuration.  Setting CAMO_URI
 ## to '' will disable the Camo integration.
-CAMO_URI = "/external_content/"
+# CAMO_URI = "/external_content/"
+CAMO_URI = ''
 
 ## Controls the tutorial popups for new users.
 # TUTORIAL_ENABLED = True
 
 ## Controls whether Zulip will rate-limit user requests.
-RATE_LIMITING = True
+RATE_LIMITING = False
 
 ## If you want to set a Terms of Service for your server, set the path
 ## to your Markdown file, and uncomment the following line.

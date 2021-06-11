@@ -7,7 +7,7 @@
 	imports = [
 		# Include the results of the hardware scan.
 		./hardware-configuration.nix
-		# Define a user account. Don't forget to set a password with ‘passwd’.
+		# Define user accounts. Don't forget to set a password with ‘passwd’.
 		./users/bib48218.nix
 		./users/fla34149.nix
 		./users/fsim.nix

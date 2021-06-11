@@ -116,7 +116,7 @@
 				#LINK_SETTINGS_TO_DATA = "true";
 
 				# Zulip being retarded...
-				SETTING_EXTERNAL_HOST = "fsim.othr.de";
+				SETTING_EXTERNAL_HOST = "chat.fsim-ev.de";
 				SETTING_ZULIP_ADMINISTRATOR = "fachschaft_im@oth-regensburg.de";
 				SSL_CERTIFICATE_GENERATION = "self-signed";
 

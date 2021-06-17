@@ -3,6 +3,22 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, lib, pkgs, ... }:
+
+with lib;
+
+let
+	mainDomain = "fsim-ev.de";
+	appSpecs = {
+		zulip = {
+			domain = "chat.fsim-ev.de";
+			proxyPort = 8001;
+		};
+		nextcloud = {
+			domain = "cloud.fsim-ev.de";
+			proxyPort = null;
+		};
+	};
+in
 {
 	imports = [
 		# Include the results of the hardware scan.
@@ -34,7 +50,7 @@
 		nextcloud = {
 			enable = true;
 			package = pkgs.nextcloud21;
-			hostName = "cloud.fsim-ev.de";
+			hostName = appSpecs.nextcloud.domain;
 			config = {
 				dbtype = "pgsql";
 				dbhost = "/run/postgresql"; # nextcloud will add /.s.PGSQL.5432 by itself
@@ -53,38 +69,25 @@
 			recommendedTlsSettings = true;
 			clientMaxBodySize = "256m";
 
-			virtualHosts = {
-				"fsim.oth-regensburg.de" = {
-					default = true;
-					forceSSL = true;
-					enableACME = true;
-				};
-				"fsim.othr.de" = {
-					forceSSL = true;
-					enableACME = true;
-					globalRedirect = "fsim.oth-regensburg.de";
-				};
-				"fsim.hs-regensburg.de" = {
-					forceSSL = true;
-					enableACME = true;
-					globalRedirect = "fsim.oth-regensburg.de";
-				};
-
-				# Nextcloud
-				"${config.services.nextcloud.hostName}" = {
-					forceSSL = true;
-					enableACME = true;
-				};
-
-				# Zulip
-				"chat.fsim-ev.de" = {
-					forceSSL = true;
-					enableACME = true;
-					locations."/" = {
-						proxyPass = "http://localhost:8001";
-					};
-				};
-			};
+			virtualHosts = let
+				sslConfig = { forceSSL = true; enableACME = true; };
+			in
+			mkMerge [
+				{ default = { default = true; globalRedirect = mainDomain; }; }
+				(genAttrs
+					(pipe [ "oth-regensburg" "othr" "hs-regensburg" ] [
+						(map (x: "fsim." + x + ".de"))
+						# Prevent circular redirect
+						(filter (x: x != mainDomain))
+					])
+					(domain: sslConfig // { globalRedirect = mainDomain; } ))
+				(mapAttrs'
+					(_: {domain, proxyPort, ...}:
+						let cfg = (optionalAttrs (proxyPort != null)
+							{ locations."/".proxyPass = "http://localhost:${toString proxyPort}"; });
+						in nameValuePair "${domain}" (sslConfig // cfg))
+					appSpecs)
+			];
 		};
 
 		# Database
@@ -126,7 +129,7 @@
 				#LINK_SETTINGS_TO_DATA = "true";
 
 				# Zulip being retarded...
-				SETTING_EXTERNAL_HOST = "chat.fsim-ev.de";
+				SETTING_EXTERNAL_HOST = appSpecs.zulip.domain;
 				SETTING_ZULIP_ADMINISTRATOR = "fachschaft_im@oth-regensburg.de";
 				SSL_CERTIFICATE_GENERATION = "self-signed";
 

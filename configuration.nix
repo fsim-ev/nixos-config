@@ -59,6 +59,16 @@
 					forceSSL = true;
 					enableACME = true;
 				};
+				"fsim.othr.de" = {
+					forceSSL = true;
+					enableACME = true;
+					globalRedirect = "fsim.oth-regensburg.de";
+				};
+				"fsim.hs-regensburg.de" = {
+					forceSSL = true;
+					enableACME = true;
+					globalRedirect = "fsim.oth-regensburg.de";
+				};
 
 				# Nextcloud
 				"${config.services.nextcloud.hostName}" = {

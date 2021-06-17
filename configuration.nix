@@ -7,6 +7,7 @@
 with lib;
 
 let
+	fsimMail = "fachschaft_im@oth-regensburg.de";
 	mainDomain = "fsim-ev.de";
 	appSpecs = {
 		zulip = {
@@ -112,7 +113,7 @@ in
 
 	security.acme = {
 		# Let's Encrypt Certificate Management
-		email = "fachschaft_im@oth-regensburg.de";
+		email = fsimMail;
 		acceptTerms = true;
 	};
 
@@ -130,7 +131,7 @@ in
 
 				# Zulip being retarded...
 				SETTING_EXTERNAL_HOST = appSpecs.zulip.domain;
-				SETTING_ZULIP_ADMINISTRATOR = "fachschaft_im@oth-regensburg.de";
+				SETTING_ZULIP_ADMINISTRATOR = fsimMail;
 				SSL_CERTIFICATE_GENERATION = "self-signed";
 
 				SECRETS_postgres_password = lib.fileContents ./secrets/zulip-db-pass;

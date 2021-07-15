@@ -103,6 +103,9 @@ in
 				}
 			];
 		};
+
+		# Monitoring (http://fsim.othr.de:19999/)
+		netdata.enable = true;
 	};
 
 	# NextCloud: ensure that postgres is running *before* running the setup

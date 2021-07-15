@@ -70,8 +70,8 @@ EXTERNAL_HOST = "chat.fsim-ev.de"
 ##   https://zulip.readthedocs.io/en/latest/production/email.html
 
 ## EMAIL_HOST and EMAIL_HOST_USER are generally required.
-# EMAIL_HOST = 'smtp.example.com'
-# EMAIL_HOST_USER = ''
+EMAIL_HOST = 'smtp.hs-regensburg.de'
+EMAIL_HOST_USER = 'fachschaft_im@oth-regensburg.de'
 
 ## Passwords and secrets are not stored in this file.  The password
 ## for user EMAIL_HOST_USER goes in `/etc/zulip/zulip-secrets.conf`.
@@ -79,8 +79,8 @@ EXTERNAL_HOST = "chat.fsim-ev.de"
 # email_password = abcd1234
 
 ## EMAIL_USE_TLS and EMAIL_PORT are required for most SMTP providers.
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
+EMAIL_USE_TLS = False
+EMAIL_PORT = 25
 
 ## The noreply address to be used as the sender for certain generated
 ## emails.  Messages sent to this address could contain sensitive user

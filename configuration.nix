@@ -60,6 +60,7 @@ in
         adminuser = "nixi";
         adminpassFile = toString ./secrets/nextcloud-admin-pass;
         overwriteProtocol = "https";
+        defaultPhoneRegion = "DE";
       };
     };
 

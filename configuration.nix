@@ -62,6 +62,14 @@ in
         overwriteProtocol = "https";
         defaultPhoneRegion = "DE";
       };
+      caching = {
+        apcu = true;
+        redis = true;
+      };
+      phpOptions = mkOptionDefault {
+        # See: https://docs.nextcloud.com/server/14/admin_manual/configuration_server/caching_configuration.html#id1
+        "apc.cli_enable" = "1";
+      };
     };
 
     # Web server
@@ -107,6 +115,10 @@ in
         }
       ];
     };
+    
+    # Cache
+    # - Nextcloud: File locking
+    redis.enable = true;
 
     # Monitoring (http://fsim.othr.de:19999/)
     netdata.enable = true;

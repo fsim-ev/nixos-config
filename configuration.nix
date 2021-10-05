@@ -234,6 +234,7 @@ in
       enable = true;
       port = 22;
     };
+    tmpOnTmpfs = true;
   };
 
   # This value determines the NixOS release from which the default

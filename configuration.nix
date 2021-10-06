@@ -67,7 +67,7 @@ in
         redis = true;
       };
       phpOptions = mkOptionDefault {
-        # See: https://docs.nextcloud.com/server/14/admin_manual/configuration_server/caching_configuration.html#id1
+        # See: https://docs.nextcloud.com/server/22/admin_manual/configuration_server/caching_configuration.html#id1
         "apc.cli_enable" = "1";
       };
     };

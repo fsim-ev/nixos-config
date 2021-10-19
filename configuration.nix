@@ -202,6 +202,21 @@ in
     };
   };
 
+  # FSIM room tunnel
+  networking.wireguard = {
+    enable = true;
+    interfaces."wg0" = {
+      privateKeyFile = toString ./secrets/wireguard-tunnel.key;
+      generatePrivateKeyFile = true;
+      listenPort = 4422;
+      ips = [ "10.24.1.1/32" ];
+      peers = [{
+        allowedIPs = [ "10.24.1.2/32" "10.24.0.0/24" ];
+        publicKey = "oOhxVotHhrno8lw4NazqmCYFHXOQ2zcSFNAI0Pf8mgE=";
+      }];
+    };
+  };
+
   ###########################################################################
   # DANGER ZONE
 

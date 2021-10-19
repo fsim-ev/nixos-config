@@ -32,14 +32,44 @@ in
     ./users/uta36888.nix
   ];
 
-  environment.systemPackages = with pkgs; [
-    htop
-    nano
-    vim
-    curl
-    wget
-    git
+
+  environment.systemPackages = with pkgs;
+    let newpg = config.containers.temp-pg.config.services.postgresql;
+    in [ 
+      htop
+      nano
+      vim
+      curl
+      wget
+      git
+
+      # PostgreSQL upgrade script
+      (writeScriptBin "upgrade-pg-cluster" ''
+        set -x
+        export OLDDATA="${config.services.postgresql.dataDir}"
+        export NEWDATA="${newpg.dataDir}"
+        export OLDBIN="${config.services.postgresql.package}/bin"
+        export NEWBIN="${newpg.package}/bin"
+
+        install -d -m 0700 -o postgres -g postgres "$NEWDATA"
+        cd "$NEWDATA"
+        sudo -u postgres $NEWBIN/initdb -D "$NEWDATA"
+
+        systemctl stop postgresql    # old one
+
+        sudo -u postgres $NEWBIN/pg_upgrade \
+          --old-datadir "$OLDDATA" --new-datadir "$NEWDATA" \
+          --old-bindir $OLDBIN --new-bindir $NEWBIN \
+          "$@"
+      '')
   ];
+  containers.temp-pg.config.services.postgresql = {
+    enable = true;
+    package = pkgs.postgresql_13;
+    ## set a custom new dataDir
+    # dataDir = "/some/data/dir";
+  };
+
 
   programs = {
     fish.enable = true;
@@ -107,7 +137,7 @@ in
     # Database
     postgresql = {
       enable = true;
-      package = pkgs.postgresql_12;
+      package = pkgs.postgresql_13;
       ensureDatabases = [ config.services.nextcloud.config.dbname ];
       ensureUsers = [
         {

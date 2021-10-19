@@ -88,14 +88,14 @@ in
         in
         mkMerge [
           { default = { default = true; globalRedirect = mainDomain; }; }
-          (genAttrs
+          (genAttrs # Generate vHosts for all OTH domains
             (pipe [ "oth-regensburg" "othr" "hs-regensburg" ] [
               (map (x: "fsim." + x + ".de"))
               # Prevent circular redirect
               (filter (x: x != mainDomain))
             ])
             (domain: sslConfig // { globalRedirect = mainDomain; }))
-          (mapAttrs'
+          (mapAttrs' # Generate proxy vHosts for services
             (_: { domain, proxyPort, ... }:
               let cfg = (optionalAttrs (proxyPort != null)
                 { locations."/".proxyPass = "http://localhost:${toString proxyPort}"; });

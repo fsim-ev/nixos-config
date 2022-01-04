@@ -343,6 +343,7 @@ in
     enable = true;
     passwordAuthentication = false;
   };
+  services.sshguard.enable = true;
 
   networking = {
     hostName = "im-srv-004";

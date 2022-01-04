@@ -32,18 +32,16 @@ in
     ./users/uta36888.nix
   ];
 
+  containers.temp-pg.config.services.postgresql = {
+    enable = true;
+    package = pkgs.postgresql_13;
+    ## set a custom new dataDir
+    # dataDir = "/some/data/dir";
+  };
 
   environment.systemPackages = with pkgs;
     let newpg = config.containers.temp-pg.config.services.postgresql;
-    in [ 
-      htop
-      nano
-      vim
-      curl
-      wget
-      git
-
-      # PostgreSQL upgrade script
+    in [ # PostgreSQL upgrade script
       (writeScriptBin "upgrade-pg-cluster" ''
         set -x
         export OLDDATA="${config.services.postgresql.dataDir}"
@@ -62,14 +60,15 @@ in
           --old-bindir $OLDBIN --new-bindir $NEWBIN \
           "$@"
       '')
-  ];
-  containers.temp-pg.config.services.postgresql = {
-    enable = true;
-    package = pkgs.postgresql_13;
-    ## set a custom new dataDir
-    # dataDir = "/some/data/dir";
-  };
 
+    htop
+    nano
+    vim
+    lf
+    curl
+    wget
+    git
+  ];
 
   programs = {
     fish.enable = true;
@@ -391,5 +390,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.05"; # Did you read the comment?
+  system.stateVersion = "21.11"; # Did you read the comment?
 }

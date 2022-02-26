@@ -259,9 +259,9 @@ in
           ensurePermissions."examia_phpbb.*" = "ALL PRIVILEGES";
           # Don't forget to set password for 'examia_phpbb@localhost'
         }
-      ]; 
+      ];
     };
-    
+
     # PHP
     phpfpm = {
       phpOptions = ''
@@ -285,7 +285,7 @@ in
           };
         };
       };
-    };  
+    };
 
     # Cache
     redis.servers = {

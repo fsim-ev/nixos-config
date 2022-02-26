@@ -25,11 +25,7 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     # Define user accounts. Don't forget to set a password with ‘passwd’.
-    ./users/bib48218.nix
-    ./users/fla34149.nix
-    ./users/fsim.nix
-    ./users/kum31796.nix
-    ./users/uta36888.nix
+    ./users/users.nix
   ];
 
   containers.temp-pg.config.services.postgresql = {

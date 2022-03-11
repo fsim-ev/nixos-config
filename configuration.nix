@@ -18,6 +18,10 @@ let
       domain = "cloud.fsim-ev.de";
       proxyPort = null;
     };
+    hedgedoc = {
+      domain = "pad.fsim-ev.de";
+      proxyPort = 3003;
+    };
   };
 in
 {
@@ -180,6 +184,54 @@ in
         ];
     };
 
+    # Hedgedoc
+    hedgedoc = {
+      enable = true;
+      configuration = {
+        domain = appSpecs.hedgedoc.domain;
+        port = appSpecs.hedgedoc.proxyPort;
+        protocolUseSSL = true;
+        dhParamPath = null;
+        hsts.enable = true;
+        allowOrigin = [
+          appSpecs.hedgedoc.domain
+        ];
+        csp = {
+          enable = true;
+          upgradeInsecureRequest = "auto";
+          addDefaults = true;
+        };
+
+        db = {
+          dialect = "postgres";
+          host = "/run/postgresql";
+          username = "hedgedoc";
+          database = "hedgedoc";
+        };
+
+        allowAnonymous = false;
+        defaultPermission = "private"; # Privacy first
+        allowFreeURL = false; # for even more privacy
+
+        allowGravatar = false;
+
+        email = false;
+        allowEmailRegister = false;
+        ldap = {
+          url = "ldaps://dc2.hs-regensburg.de";
+          providerName = "NDS Kennung";
+          bindDn = "";
+          bindCredentials = "";
+          searchBase = "ou=HSR,dc=hs-regensburg,dc=de";
+          searchAttributes = [ "displayName" "mail" "cn" ];
+          searchFilter = "(cn={{username}})";
+          userNameField = "displayName";
+          useridField = "cn";
+          tlsca="";
+        };
+      };
+    };
+
     # Database
     postgresql = {
       enable = true;
@@ -189,6 +241,10 @@ in
         {
           name = config.services.nextcloud.config.dbuser;
           ensurePermissions."DATABASE ${config.services.nextcloud.config.dbname}" = "ALL PRIVILEGES";
+        }
+        {
+          name = config.services.hedgedoc.configuration.db.username;
+          ensurePermissions."DATABASE ${config.services.hedgedoc.configuration.db.database}" = "ALL PRIVILEGES";
         }
       ];
     };

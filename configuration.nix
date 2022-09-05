@@ -434,7 +434,7 @@ in
       version = 2;
       device = "/dev/sda";
     };
-    kernelPackages = pkgs.linuxPackages_5_10;
+
     initrd.network.ssh = {
       enable = true;
       port = 22;

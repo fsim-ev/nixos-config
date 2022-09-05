@@ -81,7 +81,7 @@ in
     # Nextcloud
     nextcloud = {
       enable = true;
-      package = pkgs.nextcloud22;
+      package = pkgs.nextcloud23;
       hostName = appSpecs.nextcloud.domain;
       config = {
         dbtype = "pgsql";
@@ -288,8 +288,13 @@ in
     };  
 
     # Cache
-    # - Nextcloud: File locking
-    redis.enable = true;
+    redis.servers = {
+      "nextcloud" = {
+        # File lock cache
+        enable = true;
+        user = "nextcloud";
+      };
+    };
 
     # Monitoring (http://fsim.othr.de:19999/)
     netdata.enable = true;
@@ -303,7 +308,7 @@ in
 
   security.acme = {
     # Let's Encrypt Certificate Management
-    email = fsimMail;
+    defaults.email = fsimMail;
     acceptTerms = true;
   };
 
@@ -443,5 +448,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.11"; # Did you read the comment?
+  system.stateVersion = "22.05"; # Did you read the comment?
 }

@@ -395,7 +395,10 @@ in
   ###########################################################################
   # DANGER ZONE
 
-  security.sudo.enable = true;
+  security = {
+    sudo.enable = true; # popular and declining
+    doas.enable = true; # simple and safe
+  };
   services.openssh = {
     enable = true;
     passwordAuthentication = false;

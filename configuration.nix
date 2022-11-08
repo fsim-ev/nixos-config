@@ -220,8 +220,8 @@ in
         ldap = {
           url = "ldaps://dc2.hs-regensburg.de";
           providerName = "NDS Kennung";
-          bindDn = "";
-          bindCredentials = "";
+          bindDn = readFile ./secrets/hedgedoc-bindDn;
+          bindCredentials = readFile ./secrets/hedgedoc-bindCredentials;
           searchBase = "ou=HSR,dc=hs-regensburg,dc=de";
           searchAttributes = [ "displayName" "mail" "cn" ];
           searchFilter = "(cn={{username}})";

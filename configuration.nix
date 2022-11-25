@@ -404,7 +404,7 @@ in
   services.sshguard.enable = true;
 
   networking = {
-    hostName = "im-srv-004";
+    hostName = "ori";
     hosts = {
       "127.0.1.1" = [
         "im-srv-004"

@@ -312,8 +312,6 @@ in
     acceptTerms = true;
   };
 
-  virtualisation.docker.enable = true;
-
   virtualisation.oci-containers.containers = rec {
     chat = {
       image = "zulip/docker-zulip:5.7-0";

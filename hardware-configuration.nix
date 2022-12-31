@@ -29,6 +29,6 @@
 	};
 	swapDevices = [ ];
 
-	hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
+	hardware.cpu.intel.updateMicrocode = true;
 	powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
 }

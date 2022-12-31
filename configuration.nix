@@ -318,7 +318,7 @@ in
 
   virtualisation.oci-containers.containers = rec {
     chat = {
-      image = "zulip/docker-zulip:5.7-0";
+      image = "zulip/docker-zulip:6.0-0";
       dependsOn = [ "chat-db" "chat-cache" "chat-mqueue" ];
       # hack
       cmd = [ "/bin/sh" "-c" "/home/zulip/deployments/current/scripts/zulip-puppet-apply -f && entrypoint.sh app:run" ];
@@ -344,7 +344,7 @@ in
       extraOptions = [ "--network=container:chat-db" ];
     };
     chat-db = {
-      image = "zulip/zulip-postgresql:10";
+      image = "zulip/zulip-postgresql:14";
       environment = {
         POSTGRES_DB = "zulip";
         POSTGRES_USER = "zulip";

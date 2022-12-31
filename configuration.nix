@@ -36,7 +36,7 @@ in
     system.stateVersion = "22.11";
     services.postgresql = {
       enable = true;
-      package = pkgs.postgresql_13;
+      package = pkgs.postgresql_14;
       ## set a custom new dataDir
       # dataDir = "/some/data/dir";
     };
@@ -239,7 +239,7 @@ in
     # Database
     postgresql = {
       enable = true;
-      package = pkgs.postgresql_13;
+      package = pkgs.postgresql_14;
       ensureDatabases = [ config.services.nextcloud.config.dbname ];
       ensureUsers = [
         {

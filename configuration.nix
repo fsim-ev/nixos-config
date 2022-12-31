@@ -71,6 +71,9 @@ in
     curl
     wget
     git
+
+    # for Borg
+    mariadb
   ];
 
   programs = {
@@ -302,6 +305,32 @@ in
 
     # Monitoring (http://fsim.othr.de:19999/)
     netdata.enable = true;
+
+    # Backup
+    borgbackup.jobs = {
+      "examia" = {
+        paths = [
+          "/var/lib/www/examia.de"
+          "/tmp/db-backup.sql" # Private /tmp
+        ];
+        exclude = [
+          "/var/lib/www/examia.de/cache"
+          "*.lock"
+        ];
+        preHook = ''
+          ${mysql.package}/bin/mysqldump --opt examia_phpbb > /tmp/db-backup.sql
+        '';
+        repo =  "examia@fren.fsim:.";
+        encryption = {
+          mode = "repokey-blake2";
+          passCommand = "cat /etc/nixos/secrets/borg-infra-enc.key";
+        };
+        environment = { BORG_RSH = "ssh -i /etc/nixos/secrets/borg-fren-append.key"; };
+        compression = "auto,zstd";
+        doInit = true;
+        startAt = "0/6:00:00"; # every 6 hrs
+      };
+    };
   };
 
   # NextCloud: ensure that postgres is running *before* running the setup

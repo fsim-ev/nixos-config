@@ -414,6 +414,9 @@ in
         "im-srv-004"
         "im-srv-004.hs-regensburg.de"
       ];
+      "10.24.1.2" = [
+        "fren.fsim"
+      ];
     };
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.

@@ -369,6 +369,25 @@ in
         doInit = true;
         startAt = "0/6:00:00"; # every 6 hrs
       };
+
+      "hedgedoc" = {
+        paths = [
+          "/var/lib/hedgedoc"
+          "/tmp/db-backup.sql" # Private /tmp
+        ];
+        preHook = ''
+          ${pkgs.sudo}/bin/sudo -u postgres -- ${postgresql.package}/bin/pg_dump -d hedgedoc > /tmp/db-backup.sql
+        '';
+        repo =  "hedgedoc@fren.fsim:.";
+        encryption = {
+          mode = "repokey-blake2";
+          passCommand = "cat /etc/nixos/secrets/borg-infra-enc.key";
+        };
+        environment = { BORG_RSH = "ssh -i /etc/nixos/secrets/borg-fren-append.key"; };
+        compression = "auto,zstd";
+        doInit = true;
+        startAt = "0/6:00:00"; # every 6 hrs
+      };
     };
   };
 

@@ -330,6 +330,30 @@ in
         doInit = true;
         startAt = "0/6:00:00"; # every 6 hrs
       };
+
+      "zulip" = {
+        paths = [
+          "/var/lib/zulip/uploads"
+          "/var/lib/zulip/backups"
+        ];
+        preHook = ''
+          # type of quotes is important here!
+          PODMAN="${pkgs.podman}/bin/podman"
+          $PODMAN exec -it chat sh -c \
+            'su zulip -c "/home/zulip/deployments/current/manage.py backup" \
+              && mv -vT $(ls -t /tmp/zulip-backup-* | head -n1) /data/backups/zulip-backup-current.tar.gz'
+        '';
+        readWritePaths = [ "/var/lib/containers" "/run/libpod" ];
+        repo =  "zulip@fren.fsim:.";
+        encryption = {
+          mode = "repokey-blake2";
+          passCommand = "cat /etc/nixos/secrets/borg-infra-enc.key";
+        };
+        environment = { BORG_RSH = "ssh -i /etc/nixos/secrets/borg-fren-append.key"; };
+        compression = "auto,zstd";
+        doInit = true;
+        startAt = "0/6:00:00"; # every 6 hrs
+      };
     };
   };
 

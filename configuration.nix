@@ -354,6 +354,21 @@ in
         doInit = true;
         startAt = "0/6:00:00"; # every 6 hrs
       };
+
+      "nextcloud" = {
+        paths = [
+          "/var/lib/nextcloud"
+        ];
+        repo =  "nextcloud@fren.fsim:.";
+        encryption = {
+          mode = "repokey-blake2";
+          passCommand = "cat /etc/nixos/secrets/borg-infra-enc.key";
+        };
+        environment = { BORG_RSH = "ssh -i /etc/nixos/secrets/borg-fren-append.key"; };
+        compression = "auto,zstd";
+        doInit = true;
+        startAt = "0/6:00:00"; # every 6 hrs
+      };
     };
   };
 

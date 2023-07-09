@@ -64,12 +64,11 @@ in
           "$@"
       '')
 
-    htop
-    nano
-    vim
+    #ffmpeg
+    htop btop
+    nano vim helix
     lf
-    curl
-    wget
+    curl wget
     git
 
     # for Borg

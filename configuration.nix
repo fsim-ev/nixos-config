@@ -405,7 +405,7 @@ in
 
   virtualisation.oci-containers.containers = rec {
     chat = {
-      image = "zulip/docker-zulip:6.0-0";
+      image = "zulip/docker-zulip:7.2-0";
       dependsOn = [ "chat-db" "chat-cache" "chat-mqueue" ];
       # hack
       cmd = [ "/bin/sh" "-c" "/home/zulip/deployments/current/scripts/zulip-puppet-apply -f && entrypoint.sh app:run" ];
@@ -424,6 +424,7 @@ in
       };
       volumes = [
         "/var/lib/zulip:/data"
+        "/var/log/zulip:/var/log/zulip"
         (toString ./services/zulip/zulip.conf + ":/etc/zulip/zulip.conf")
         (toString ./services/zulip/settings.py + ":/etc/zulip/settings.py")
         (toString ./secrets/zulip + ":/etc/zulip/zulip-secrets.conf")

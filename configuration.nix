@@ -87,7 +87,7 @@ in
     # Nextcloud
     nextcloud = {
       enable = true;
-      package = pkgs.nextcloud25;
+      package = pkgs.nextcloud27;
       hostName = appSpecs.nextcloud.domain;
       config = {
         dbtype = "pgsql";

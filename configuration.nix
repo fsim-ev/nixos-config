@@ -491,7 +491,7 @@ in
   };
   services.openssh = {
     enable = true;
-    passwordAuthentication = false;
+    settings.PasswordAuthentication = false;
   };
   services.sshguard.enable = true;
 
@@ -527,7 +527,6 @@ in
     # Use the GRUB 2 boot loader.
     loader.grub = {
       enable = true;
-      version = 2;
       device = "/dev/sda";
     };
 
@@ -535,7 +534,7 @@ in
       enable = true;
       port = 22;
     };
-    tmpOnTmpfs = true;
+    tmp.useTmpfs = true;
   };
 
   # This value determines the NixOS release from which the default

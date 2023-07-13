@@ -86,7 +86,9 @@ in
     # Nextcloud
     nextcloud = {
       enable = true;
-      package = pkgs.nextcloud27;
+      package = pkgs.nextcloud27.overrideAttrs {
+        patches = (./patches/nextcloud-remove-notify-nag.patch);
+      };
       hostName = appSpecs.nextcloud.domain;
       config = {
         dbtype = "pgsql";

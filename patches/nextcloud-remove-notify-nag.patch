@@ -1,0 +1,13 @@
+diff --git a/nextcloud/core/Controller/LoginController.php b/nextcloud.pat/core/Controller/LoginController.php
+index aa6617c..b9ecd64 100644
+--- a/core/Controller/LoginController.php
++++ b/core/Controller/LoginController.php
+@@ -148,7 +148,7 @@ class LoginController extends Controller {
+ 		}
+ 
+ 		$loginMessages = $this->session->get('loginMessages');
+-		if (!$this->manager->isFairUseOfFreePushService()) {
++		if (false && !$this->manager->isFairUseOfFreePushService()) {
+ 			if (!is_array($loginMessages)) {
+ 				$loginMessages = [[], []];
+ 			}

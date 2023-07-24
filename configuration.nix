@@ -537,6 +537,11 @@ in
       port = 22;
     };
     tmp.useTmpfs = true;
+
+    kernel.sysctl = {
+      # Allow containers to access internet
+      "net.ipv4.ip_forward" = 1;
+    };
   };
 
   # This value determines the NixOS release from which the default

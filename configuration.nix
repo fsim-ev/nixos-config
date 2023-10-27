@@ -70,7 +70,8 @@ in
     lf
     curl wget
     git
-
+    pandoc
+    
     # for Borg
     mariadb
   ];

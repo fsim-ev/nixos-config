@@ -344,7 +344,7 @@ in
             'su zulip -c "/home/zulip/deployments/current/manage.py backup" \
               && mv -vT $(ls -t /tmp/zulip-backup-* | head -n1) /data/backups/zulip-backup-current.tar.gz'
         '';
-        readWritePaths = [ "/var/lib/containers" "/run/libpod" ];
+        readWritePaths = [ "/var/lib/containers" "/run/libpod" "/run/lock/netavark.lock" ];
         repo =  "zulip@fren.fsim:.";
         encryption = {
           mode = "repokey-blake2";

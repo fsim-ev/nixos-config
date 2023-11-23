@@ -410,6 +410,33 @@ in
         doInit = true;
         startAt = "0/6:00:00"; # every 6 hrs
       };
+      "minecraft" = {
+        paths = [
+          "/var/lib/minecraft"
+        ];
+        preHook = ''
+          # type of quotes is important here!
+          PODMAN="${pkgs.podman}/bin/podman"
+          $PODMAN exec -it minecraft /bin/sh -c "
+              mc-send-to-console save-off;
+              mc-send-to-console save-all flush;
+            "
+        '';
+        postHook = ''
+          # type of quotes is important here!
+          PODMAN="${pkgs.podman}/bin/podman"
+          $PODMAN exec -it minecraft /bin/sh -c "
+              mc-send-to-console save-on;
+            "
+        '';
+        readWritePaths = [ "/var/lib/containers" "/run/libpod" "/run/lock/netavark.lock" ];
+        repo =  "minecraft@fren.fsim:.";
+        encryption.mode = "none";
+        environment = { BORG_RSH = "ssh -i /etc/nixos/secrets/borg-fren-append.key"; };
+        compression = "auto,zstd";
+        doInit = true;
+        startAt = "0/3:00:00"; # every 3 hrs
+      };
     };
   };
 

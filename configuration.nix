@@ -108,7 +108,6 @@ in
         "apc.cli_enable" = "1";
       };
       maxUploadSize = "16G";
-      enableBrokenCiphersForSSE = false;
     };
 
     # Web server
@@ -245,15 +244,18 @@ in
     postgresql = {
       enable = true;
       package = pkgs.postgresql_14;
-      ensureDatabases = [ config.services.nextcloud.config.dbname ];
+      ensureDatabases = [ 
+        config.services.nextcloud.config.dbname 
+        config.services.hedgedoc.settings.db.database
+      ];
       ensureUsers = [
         {
           name = config.services.nextcloud.config.dbuser;
-          ensurePermissions."DATABASE ${config.services.nextcloud.config.dbname}" = "ALL PRIVILEGES";
+          ensureDBOwnership = true;
         }
         {
           name = config.services.hedgedoc.settings.db.username;
-          ensurePermissions."DATABASE ${config.services.hedgedoc.settings.db.database}" = "ALL PRIVILEGES";
+          ensureDBOwnership = true;
         }
       ];
       settings = {
@@ -631,5 +633,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 }

@@ -558,7 +558,7 @@ in
       ips = [ "10.24.1.1/32" ];
       peers = [{
         allowedIPs = [ "10.24.1.2/32" "10.24.0.0/24" ];
-        publicKey = "oOhxVotHhrno8lw4NazqmCYFHXOQ2zcSFNAI0Pf8mgE=";
+        publicKey = "ElcCWQwmO1kyLYZOq30DkAwhy8F7Xh7A3jwJLTkUGHY=";
       }];
     };
   };
@@ -585,6 +585,7 @@ in
       ];
       "10.24.1.2" = [
         "fren.fsim"
+        "monolith.fsim"
       ];
     };
 

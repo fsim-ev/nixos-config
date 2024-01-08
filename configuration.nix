@@ -199,7 +199,6 @@ in
         domain = appSpecs.hedgedoc.domain;
         port = appSpecs.hedgedoc.proxyPort;
         protocolUseSSL = true;
-        dhParamPath = null;
         hsts.enable = true;
         allowOrigin = [
           appSpecs.hedgedoc.domain

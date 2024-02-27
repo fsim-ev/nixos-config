@@ -455,7 +455,7 @@ in
 
   virtualisation.oci-containers.containers = rec {
     chat = {
-      image = "zulip/docker-zulip:8.0-0";
+      image = "zulip/docker-zulip:8.2-0";
       dependsOn = [ "chat-db" "chat-cache" "chat-mqueue" ];
       # hack
       cmd = [ "/bin/sh" "-c" "/home/zulip/deployments/current/scripts/zulip-puppet-apply -f && entrypoint.sh app:run" ];

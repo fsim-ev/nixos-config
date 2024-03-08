@@ -22,6 +22,10 @@ let
       domain = "pad.fsim-ev.de";
       proxyPort = 3003;
     };
+    wiki-js = {
+      domain = "wiki.fsim-ev.de";
+      proxyPort = 8002;
+    };
   };
 in
 {
@@ -238,6 +242,22 @@ in
         };
       };
     };
+    
+    wiki-js = {
+      enable = true;
+      settings = {
+        bindIP = "127.0.0.1";
+        port = appSpecs.wiki-js.proxyPort;
+
+        db.host = "localhost";
+        db.pass = "$(DB_PASS)";
+        db.db = "wiki";
+        db.user = "wiki";
+
+        #logLevel = "silly";
+      };
+      environmentFile = ./secrets/wiki-js-env;
+    };
 
     # Database
     postgresql = {
@@ -246,6 +266,7 @@ in
       ensureDatabases = [ 
         config.services.nextcloud.config.dbname 
         config.services.hedgedoc.settings.db.database
+        config.services.wiki-js.settings.db.db
       ];
       ensureUsers = [
         {
@@ -256,6 +277,10 @@ in
           name = config.services.hedgedoc.settings.db.username;
           ensureDBOwnership = true;
         }
+        {
+          name = config.services.wiki-js.settings.db.db;
+          ensureDBOwnership = true;
+        }        
       ];
       settings = {
         log_min_duration_statement = 1000;

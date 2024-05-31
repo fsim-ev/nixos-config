@@ -1,4 +1,4 @@
-diff --git a/nextcloud/core/Controller/LoginController.php b/nextcloud.pat/core/Controller/LoginController.php
+diff --git a/nextcloud/core/Controller/LoginController.php b/nextcloud/core/Controller/LoginController.php
 index aa6617c..b9ecd64 100644
 --- a/core/Controller/LoginController.php
 +++ b/core/Controller/LoginController.php

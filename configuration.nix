@@ -578,8 +578,7 @@ in
   networking.wireguard = {
     enable = true;
     interfaces."wg0" = {
-      privateKeyFile = toString ./secrets/wireguard-tunnel.key;
-      generatePrivateKeyFile = true;
+      privateKeyFile = "/etc/nixos/secrets/wireguard-tunnel.key";
       listenPort = 4422;
       ips = [ "10.24.1.1/32" ];
       peers = [{

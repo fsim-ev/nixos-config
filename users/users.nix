@@ -22,7 +22,12 @@ with pkgs.lib; {
       isNormalUser = true;
       extraGroups = [ "wheel" "nextcloud" ];
       shell = pkgs.fish;
-      openssh.authorizedKeys.keyFiles = [ ./ssh/uta36888.pub ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFmLpfmWBpi1ACI7q/9Rr6QNjy2ntvYRrvIcoXiTleMi engi"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKy1pBbnSgIihWZg4PozI26NUTARrBVrziaV2fXNNZY9 hyperspace"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxvuuNWDRxO3LuyQX2MaD2NYygqWN5wMVCClSPb4M0Q base"
+      ];
+    };
 
     laq33610 = {
       isNormalUser = true;

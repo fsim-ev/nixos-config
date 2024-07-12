@@ -23,6 +23,18 @@ with pkgs.lib; {
       extraGroups = [ "wheel" "nextcloud" ];
       shell = pkgs.fish;
       openssh.authorizedKeys.keyFiles = [ ./ssh/uta36888.pub ];
+
+    laq33610 = {
+      isNormalUser = true;
+      extraGroups = [ "nextcloud" ];
+      shell = pkgs.bash;
+      openssh.authorizedKeys.keyFiles = [ ./ssh/laq33610.pub ];
+    };
+    beo45216 = {
+      isNormalUser = true;
+      extraGroups = [ "nextcloud" ];
+      shell = pkgs.zsh;
+      openssh.authorizedKeys.keyFiles = [ ./ssh/beo45216.pub ];
     };
   };
 }

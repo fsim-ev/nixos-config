@@ -164,7 +164,7 @@ from django_auth_ldap.config import GroupOfNamesType, LDAPGroupQuery, LDAPSearch
 
 ## The LDAP server to connect to.  Setting this enables Zulip
 ## automatically fetching each new user's name from LDAP.
-AUTH_LDAP_SERVER_URI = "ldaps://dc2.hs-regensburg.de"
+AUTH_LDAP_SERVER_URI = "ldaps://adldap.hs-regensburg.de"
 
 ## The DN of the user to bind as (i.e., authenticate as) in order to
 ## query LDAP.  If unset, Zulip does an anonymous bind.

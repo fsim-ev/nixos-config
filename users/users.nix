@@ -31,7 +31,7 @@ with pkgs.lib; {
 
     laq33610 = {
       isNormalUser = true;
-      extraGroups = [ "nextcloud" ];
+      extraGroups = [ "nextcloud" "wheel" ];
       shell = pkgs.bash;
       openssh.authorizedKeys.keyFiles = [ ./ssh/laq33610.pub ];
     };

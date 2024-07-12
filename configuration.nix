@@ -100,16 +100,15 @@ in
         dbhost = "/run/postgresql"; # nextcloud will add /.s.PGSQL.5432 by itself
         adminuser = "nixi";
         adminpassFile = toString ./secrets/nextcloud-admin-pass;
-        overwriteProtocol = "https";
-        defaultPhoneRegion = "DE";
+      };
+      settings = {
+        overwriteprotocol = "https";
+        default_phone_region = "DE";
+        default_locale = "de";
       };
       caching = {
         apcu = true;
         redis = true;
-      };
-      phpOptions = mkOptionDefault {
-        # See: https://docs.nextcloud.com/server/22/admin_manual/configuration_server/caching_configuration.html#id1
-        "apc.cli_enable" = "1";
       };
       maxUploadSize = "16G";
     };

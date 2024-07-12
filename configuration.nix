@@ -82,6 +82,7 @@ in
 
   programs = {
     fish.enable = true;
+    zsh.enable = true;
     less.enable = true;
     tmux.enable = true;
   };

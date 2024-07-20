@@ -37,7 +37,7 @@ with pkgs.lib; {
     };
     beo45216 = {
       isNormalUser = true;
-      extraGroups = [ "nextcloud" ];
+      extraGroups = [ "nextcloud" "wheel" ];
       shell = pkgs.zsh;
       openssh.authorizedKeys.keyFiles = [ ./ssh/beo45216.pub ];
     };

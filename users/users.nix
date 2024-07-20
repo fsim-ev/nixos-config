@@ -33,11 +33,14 @@ with pkgs.lib; {
       isNormalUser = true;
       extraGroups = [ "nextcloud" "wheel" ];
       shell = pkgs.bash;
-      openssh.authorizedKeys.keyFiles = [ ./ssh/laq33610.pub ];
+      openssh.authorizedKeys.keys = [
+	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG+C5UUTDyBZSpBdwY9J3ka3xB6QBume08g9493UfVvl windowsMain"
+	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFJAS3KXEQoQp0C0c2sZNVwYu+yUoo43doN1hFyKTBCi archMain"
+      ];
     };
     beo45216 = {
       isNormalUser = true;
-      extraGroups = [ "nextcloud" ];
+      extraGroups = [ "nextcloud" "wheel" ];
       shell = pkgs.zsh;
       openssh.authorizedKeys.keyFiles = [ ./ssh/beo45216.pub ];
     };

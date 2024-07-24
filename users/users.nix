@@ -28,7 +28,6 @@ with pkgs.lib; {
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxvuuNWDRxO3LuyQX2MaD2NYygqWN5wMVCClSPb4M0Q base"
       ];
     };
-
     laq33610 = {
       isNormalUser = true;
       extraGroups = [ "nextcloud" "wheel" ];
@@ -43,6 +42,12 @@ with pkgs.lib; {
       extraGroups = [ "nextcloud" "wheel" ];
       shell = pkgs.zsh;
       openssh.authorizedKeys.keyFiles = [ ./ssh/beo45216.pub ];
+    };
+    hoh47200 = {
+      isNormalUser = true;
+      extraGroups = [ "nextcloud" ];
+      shell = pkgs.zsh;
+      openssh.authorizedKeys.keyFiles = [ ./ssh/hoh47200.pub ];
     };
   };
 }

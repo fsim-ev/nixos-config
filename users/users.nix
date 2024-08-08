@@ -35,6 +35,8 @@ with pkgs.lib; {
       openssh.authorizedKeys.keys = [
 	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG+C5UUTDyBZSpBdwY9J3ka3xB6QBume08g9493UfVvl windowsMain"
 	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFJAS3KXEQoQp0C0c2sZNVwYu+yUoo43doN1hFyKTBCi archMain"
+	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEpchsVmMWCUaSMHj0KqK3+JauZdndHOVwv+OUko+AbD windowsTest"
+	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICzPHLKAGWjsVpb3e5SxfGbjNlV6CwhjF2Vbh58ewpBu archTest"
       ];
     };
     beo45216 = {

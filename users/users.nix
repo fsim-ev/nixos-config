@@ -45,7 +45,7 @@ with pkgs.lib; {
     };
     hoh47200 = {
       isNormalUser = true;
-      extraGroups = [ "nextcloud" ];
+      extraGroups = [ "nextcloud" "wheel" ];
       shell = pkgs.zsh;
       openssh.authorizedKeys.keyFiles = [ ./ssh/hoh47200.pub ];
     };

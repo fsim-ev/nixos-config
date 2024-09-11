@@ -387,9 +387,11 @@ in
         preHook = ''
           # type of quotes is important here!
           PODMAN="${pkgs.podman}/bin/podman"
-          $PODMAN exec -it chat sh -c \
-            'su zulip -c "/home/zulip/deployments/current/manage.py backup" \
-              && mv -vT $(ls -t /tmp/zulip-backup-* | head -n1) /data/backups/zulip-backup-current.tar.gz'
+          $PODMAN exec -it chat entrypoint.sh app:backup
+	  # getting newest backup tar with ls and head to replace old backup with the new one
+	  # borg will use this that backup to do version controlling
+	  $PODMAN exec -it chat sh -c \
+	      'mv -vTf /data/backups/$(ls -t /data/backups | head -n1) /data/backups/zulip-backup-current.tar.gz'
         '';
         readWritePaths = [ "/var/lib/containers" "/run/libpod" "/run/lock/netavark.lock" ];
         repo =  "zulip@fren.fsim:.";

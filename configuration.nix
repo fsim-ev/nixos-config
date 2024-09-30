@@ -1,4 +1,4 @@
-# Edit this configuration file to define what should be installed on
+ # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -26,6 +26,14 @@ let
       domain = "wiki.fsim-ev.de";
       proxyPort = 8002;
     };
+    katzensystem = {
+      domain = "katzen.fsim-ev.de";
+      proxyPort = null;
+    };
+    passbolt = {
+      domain = "pass.fsim-ev.de";
+      proxyPort = 8003;
+    };
   };
 in
 {
@@ -46,8 +54,19 @@ in
     };
   };
 
+  # To use FFmpeg with libfdk_aac
+  nixpkgs.config.allowUnfree = true;
+
   environment.systemPackages = with pkgs;
-    let newpg = config.containers.temp-pg.config.services.postgresql;
+    let
+      newpg = config.containers.temp-pg.config.services.postgresql;
+      ffmpeg = ffmpeg-full.override {
+        nonfreeLicensing = true;
+        fdkaacExtlib = true;
+        ffplayProgram = false;
+        ffprobeProgram = false;
+        qtFaststartProgram = false;
+      };
     in [ # PostgreSQL upgrade script
       (writeScriptBin "upgrade-pg-cluster" ''
         set -x
@@ -89,6 +108,188 @@ in
 
   services = rec {
 
+    # Engel-/Katzensystem
+    engelsystem = {
+      enable = true;
+      domain = appSpecs.katzensystem.domain;
+      createDatabase = true;
+      # configuration options with explanations can be found at
+      # https://github.com/engelsystem/engelsystem/blob/main/config/config.default.php
+      config = {
+        database = {
+    	    database = "engelsystem";
+    	    host = "localhost";
+    	    username = "engelsystem";
+          # password._secret = "/path/to/secret/file";
+    	  };
+        # api_keys = "";
+        maintenance = false;
+        app_name = "Kami-Katzensystem";
+        # production/development (set development for debugging messages)
+        environment = "production";
+        # url = "";
+        # header_items = "";
+        footer_items = {
+          # disabling FAQ does not work (why?)
+    	    # FAQ = none;
+          Contact = "mailto:fachschaft_im@oth-regensburg.de";
+          Website = "https://fsim-ev.de";
+          Chat = "https://chat.fsim-ev.de";
+          Cloud = "https://cloud.fsim-ev.de";
+          Pad = "https://pad.fsim-ev.de";
+          Wiki = "https://wiki.fsim-ev.de";
+    	  };
+        faq_text = "deal with it yourself \n I can't help you";
+        documentation_url = "https://wikipedia.org";
+        # email = {
+        #   driver = "smtp";
+        #   from = {
+        #     address = "fachschaft_im@oth-regensburg.de";
+        #     name = "Engelsystem";
+        #   };
+        #   host = "localhost";
+        #   port = 587;
+        #   encryption = "tls";
+        #   username = "mail_username";
+        #   password = "mail_password";
+        #   sendmail = "/usr/sbin/sendmail -bs";
+        # };
+        privacy_email = "fachschaft_im@oth-regensburg.de";
+        enable_email_goodie = "false";
+        # setup_admin_password = "testpasswd"; # funktioniert nicht -> ist "asdfasdf", sofort beim 1. login aendern
+        theme = "1";
+        themes = {
+          # disable themes here
+        };
+        home_site = "news";
+        display_news = "20";
+        registration_enabled = true;
+        # external_registration_url = "https://someURL.here";
+        required_user_fields = {
+          pronoun = false;
+          firstname = false;
+          lastname = false;
+          tshirt_size = false;
+          mobile = false;
+          dect = false;
+        };
+        signup_requires_arrival = false;
+        autoarrive = true;
+        supporters_can_promote = false;
+        signup_advance_hours = 0;
+        signup_post_minutes = 0;
+        signup_post_fraction = 0;
+        last_unsubscribe = 3;
+        # password_algorithm = PASSWORD_DEFAULT;
+        password_min_length = 6;
+        enable_password = false;
+        enable_dect = false;
+        enable_mobile_show = false;
+        username_regex = "/(^\p{L}\p{N}_.-]+)/ui";
+        enable_full_name = false;
+        display_full_name = false;
+        enable_pronoun = false;
+        enable_planned_arrival = false;
+        enable_force_active = false;
+        enable_self_worklog = false;
+        goodie_type = "none";
+        enable_voucher = false;
+        max_freeloadable_shifts = 10;
+        # disable_user_view_columns = {};
+        timezone = "Europe/Berlin";
+        night_shifts = {
+          enabled = false;
+          start = 0;
+          end = 8;
+          multiplier = 2;
+        };
+        voucher_settings = {
+          initial_vouchers = 0;
+          shifts_per_voucher = 0;
+          hours_per_voucher = 2;
+          voucher_start = null;
+        };
+        driving_license_enabled = false;
+        ifsg_enabled = false;
+        ifsg_light_enabled = false;
+        locales = {
+          de_DE = "Deutsch";
+          en_US = "English";
+        };
+        default_locale = "de_DE";
+        # tshirt_sizes = {
+        #   S = "Small Straight-Cut";
+        #   S-F = "Small Fitted-Cut";
+        #   M = "Medium Straight-Cut";
+        #   M-F = "Medium Fitted-Cut";
+        #   L    = "Large Straight-Cut";
+        #   L-F  = "Large Fitted-Cut";
+        #   XL   = "XLarge Straight-Cut";
+        #   XL-F = "XLarge Fitted-Cut";
+        #   2XL  = "2XLarge Straight-Cut";
+        #   3XL  = "3XLarge Straight-Cut";
+        #   4XL  = "4XLarge Straight-Cut";
+        # };
+        # tshirt_link = "";
+        enabel_day_of_event = true;
+        event_has_day0 = true;
+        filter_max_duration = 0;
+        session = {
+          driver = "pdo";
+          name = "session";
+          lifetime = 30;
+        };
+        # trusted_proxies = "127.0.0.0/8";
+        add_headers = true;
+        headers = {
+          X-Content-Type-Options = "nosniff";
+          X-Frame-Options = "sameorigin";
+          Referrer-Policy = "strict-origin-when-cross-origin";
+          # Conent-Security-Policy = ""
+          X-XSS-Protection = "1; mode=block";
+          # Feature-Policy = "autoplay \'none\'";
+        };
+        credits = {
+          Contribution = "Please just skip this. There is nothing to see here.";
+        };
+        # var_dump_server = {
+
+        #   hsot = "127.0.0.1";
+        #   port = "9912";
+        #   enable = false;
+        # };
+        oauth = {
+          sso = {
+            name = "Nextcloud";
+            # client_id = "JGc88hJrTAGdPj9MELkjDpK9If3WOOV1PCzUr9jvweoxAAo3zvXZsm8c0s9NpgQ2";
+            client_id = "cK8F4RlEfEPCMgNUmB5ETFdzcmkwh695NutP2RHy3SSB2lorJymHKITHxYdgiTBN";
+            # client_secret = "6pMLbzA1YI4y4LJQYEJSj7g2fJ6gYoVHTJ3HLMrLfzufklhe8Db7xi14UU3UleKA";
+            client_secret = "1Ps6vBogtY6r24tc1rIkwO46Hwt6VYYe9oQvF9ef9WqUgsgLXQn2X6M4W3CgAX3M";
+            url_auth = "https://cloud.fsim-ev.de/apps/oauth2/authorize";
+            url_token = "https://cloud.fsim-ev.de/apps/oauth2/api/v1/token";
+            url_info = "https://cloud.fsim-ev.de/ocs/v2.php/cloud/user?format=json";
+            # scope = "openid";
+            id = "ocs.data.id";
+            username = "ocs.data.id";
+            email = "ocs.data.email";
+            # first_name = "first-name";
+            # last_name = "last-name";
+            # url = "https://oth-regensburg.de";
+            nested_info = true;
+            # hidden = true;
+            # mark_arrived = false;
+            enable_password = false;
+            allow_registration = null;
+            # groups = "groups";
+            # teams = {
+            #   testAngel1 = 6;
+            #   testAngel2 = 3;
+            # };
+          };
+        };
+      };
+    };
+
     # Nextcloud
     nextcloud = {
       enable = true;
@@ -106,6 +307,8 @@ in
         overwriteprotocol = "https";
         default_phone_region = "DE";
         default_locale = "de";
+	# loglevel = 2;
+	# log_type = "syslog";
       };
       caching = {
         apcu = true;
@@ -113,6 +316,27 @@ in
       };
       maxUploadSize = "16G";
     };
+
+    # Examia
+#    discourse = {
+#      #enable = true;
+#      hostname = "examia.de";
+#      secretKeyBaseFile = toString ./secrets/examia-keybase;
+#      admin = {
+#        email = fsimMail;
+#        username = "fsim";
+#        fullName = "Fachschaft IM";
+#        passwordFile = toString ./secrets/examia-admin-pass;
+#      };
+#      mail.outgoing = {
+#        #serverAddress = "smtp.hs-regensburg.de";
+# #port = 587;
+#        #username = "fachschaft_im";
+#      };
+#      plugins = with config.services.discourse.package.plugins; [
+#        discourse-ldap-auth
+#      ];
+#    };
 
     # Web server
     nginx = {
@@ -258,6 +482,10 @@ in
       };
       environmentFile = ./secrets/wiki-js-env;
     };
+#    dokuwiki.sites."wiki" = {
+#      enable = false;
+#      disableActions = "register,resendpwd";
+#    };
 
     # Database
     postgresql = {
@@ -459,7 +687,7 @@ in
         '';
         readWritePaths = [ "/var/lib/containers" "/run/libpod" "/run/lock/netavark.lock" ];
         repo =  "minecraft@fren.fsim:.";
-        encryption.mode = "none";
+        encryption.mode = "none";        
         environment = { BORG_RSH = "ssh -i /etc/nixos/secrets/borg-fren-append.key"; };
         compression = "auto,zstd";
         doInit = true;
@@ -481,6 +709,57 @@ in
   };
 
   virtualisation.oci-containers.containers = rec {
+    passbolt = {
+      image = "passbolt/passbolt";
+      dependsOn = [ "passbolt-db" ];
+
+      volumes = let 
+        host-storage = "/var/lib/passbolt/passbolt";
+      in [
+        "${host-storage}/gpg:/etc/passbolt/gpg"
+        "${host-storage}/jwt:/etc/passbolt/jwt"
+      ];
+
+      environment = {
+        DATASOURCES_DEFAULT_PASSWORD = "passbolt";
+        DATASOURCES_DEFAULT_HOST = "127.0.0.1";
+        DATASOURCES_DEFAULT_USERNAME = "passbolt";
+        DATASOURCES_DEFAULT_DATABASE = "passbolt";
+        APP_FULL_BASE_URL = "https://${appSpecs.passbolt.domain}";
+
+        EMAIL_TRANSPORT_DEFAULT_HOST = "smtp.hs-regensburg.de";
+        EMAIL_TRANSPORT_DEFAULT_PORT = "25";
+        EMAIL_TRANSPORT_DEFAULT_TLS = "false";
+        EMAIL_DEFAULT_FROM = "fachschaft_im@oth-regensburg.de";
+        EMAIL_TRANSPORT_DEFAULT_USERNAME = "fachschaft_im@oth-regensburg.de";
+
+      };
+
+      extraOptions = [
+        "--network=container:passbolt-db"
+      ];
+    };
+
+    passbolt-db = {
+      image = "mariadb";
+
+      ports = [
+        "${builtins.toString appSpecs.passbolt.proxyPort}:80"
+      ];
+
+      volumes = [
+        "/var/lib/passbolt/db:/var/lib/mysql"
+      ];
+
+      environment = {
+        MARIADB_USER = "passbolt";
+        MARIADB_PASSWORD = "passbolt";
+        MARIADB_DATABASE = "passbolt";
+        MARIADB_ROOT_PASSWORD = "root";
+      };
+
+    };
+  
     chat = {
       image = "zulip/docker-zulip:8.4-0";
       dependsOn = [ "chat-db" "chat-cache" "chat-mqueue" ];
@@ -583,10 +862,16 @@ in
       privateKeyFile = "/etc/nixos/secrets/wireguard-tunnel.key";
       listenPort = 4422;
       ips = [ "10.24.1.1/32" ];
-      peers = [{
-        allowedIPs = [ "10.24.1.2/32" "10.24.0.0/24" ];
-        publicKey = "ElcCWQwmO1kyLYZOq30DkAwhy8F7Xh7A3jwJLTkUGHY=";
-      }];
+      peers = [
+        {
+          allowedIPs = [ "10.24.1.2/32" "10.24.0.0/24" ];
+          publicKey = "ElcCWQwmO1kyLYZOq30DkAwhy8F7Xh7A3jwJLTkUGHY=";
+        }
+        {
+          allowedIPs = [ "10.24.1.101/32" ];
+          publicKey = "Lw+fIYm7MQ9vZ21p3qKPsPe67occouBQb4VceQKjATQ=";
+        }
+      ];
     };
   };
 

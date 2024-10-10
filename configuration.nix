@@ -140,7 +140,7 @@ in
           Wiki = "https://wiki.fsim-ev.de";
     	  };
         faq_text = "deal with it yourself \n I can't help you";
-        documentation_url = "https://wikipedia.org";
+        documentation_url = "https://wiki.fsim-ev.de";
         # email = {
         #   driver = "smtp";
         #   from = {
@@ -161,8 +161,8 @@ in
         themes = {
           # disable themes here
         };
-        home_site = "news";
-        display_news = "20";
+        home_site = "user_shifts";
+        # display_news = "20";
         registration_enabled = true;
         # external_registration_url = "https://someURL.here";
         required_user_fields = {
@@ -261,29 +261,29 @@ in
         oauth = {
           sso = {
             name = "Nextcloud";
-            # client_id = "JGc88hJrTAGdPj9MELkjDpK9If3WOOV1PCzUr9jvweoxAAo3zvXZsm8c0s9NpgQ2";
-            client_id = "cK8F4RlEfEPCMgNUmB5ETFdzcmkwh695NutP2RHy3SSB2lorJymHKITHxYdgiTBN";
-            # client_secret = "6pMLbzA1YI4y4LJQYEJSj7g2fJ6gYoVHTJ3HLMrLfzufklhe8Db7xi14UU3UleKA";
-            client_secret = "1Ps6vBogtY6r24tc1rIkwO46Hwt6VYYe9oQvF9ef9WqUgsgLXQn2X6M4W3CgAX3M";
+            client_id = (builtins.readFile ./secrets/engelsystem-clientid);
+            client_secret = (builtins.readFile ./secrets/engelsystem-clientsecret);
             url_auth = "https://cloud.fsim-ev.de/apps/oauth2/authorize";
             url_token = "https://cloud.fsim-ev.de/apps/oauth2/api/v1/token";
             url_info = "https://cloud.fsim-ev.de/ocs/v2.php/cloud/user?format=json";
             # scope = "openid";
             id = "ocs.data.id";
-            username = "ocs.data.id";
+            username = "ocs.data.displayname";
             email = "ocs.data.email";
             # first_name = "first-name";
             # last_name = "last-name";
-            # url = "https://oth-regensburg.de";
+            url = "https://cloud.fsim-ev.de/";
             nested_info = true;
             # hidden = true;
-            # mark_arrived = false;
+            mark_arrived = true;
             enable_password = false;
-            allow_registration = null;
-            # groups = "groups";
+            allow_registration = true;
+            # groups = "ocs.data.groups";
             # teams = {
-            #   testAngel1 = 6;
-            #   testAngel2 = 3;
+            #   IM_Studenten = 1;
+            # };
+            # admins = {
+            #   "IM_Fachschaft_Administratoren" = [ 60 65 80 90 ];
             # };
           };
         };
